@@ -12,15 +12,22 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.guava:guava:29.0-jre'
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+    implementation 'org.slf4j:slf4j-simple:1.7.30'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.6'
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'org.postgresql:postgresql:42.2.5'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
-
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
+    
+    testImplementation 'org.testcontainers:testcontainers:1.14.3'
+    testImplementation 'org.testcontainers:postgresql:1.14.3'
+    testImplementation 'org.testcontainers:junit-jupiter:1.14.3'
 }
 
 application {
-    mainClassName = 'ch.so.agi.oereb.v2.App'
+    mainClassName = 'ch.so.agi.oereb.App'
 }
 
 test {
