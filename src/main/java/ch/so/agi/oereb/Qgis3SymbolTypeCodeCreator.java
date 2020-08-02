@@ -72,8 +72,11 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
             throw new Exception("configuration file is null");
         }
                
-        // Find all Rules first. Then process them to find the rule name and
-        // the type code value.
+        // Zuerst werden mit xpath alle se:Rule-Element gesucht. Anschliessend
+        // wird jedes se:Rule-Element prozessiert und der Rule-Name (se:Name)
+        // und der TypeCode-Wert gelesen.
+        // TODO: Braucht es se:Name noch? oereb-v2: Legendentext entspricht
+        // nun eher der Aussage und darf nicht in die DB geschrieben werden.
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         domFactory.setNamespaceAware(true);
         DocumentBuilder builder = domFactory.newDocumentBuilder();
@@ -81,16 +84,21 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
         
         log.info(document.getDocumentURI());
 
-//        XPathFactory xpathFactory = XPathFactory.newInstance();
-//        XPath xpath = xpathFactory.newXPath();
-//        HashMap<String, String> prefMap = new HashMap<String, String>() {{
-//            put("se", "http://www.opengis.net/se");
-//            put("ogc", "http://www.opengis.net/ogc");
-//            put("sld", "http://www.opengis.net/sld");
-//        }};
-//        SimpleNamespaceContext namespaces = new SimpleNamespaceContext(prefMap);
-//        xpath.setNamespaceContext(namespaces);
+        XPathFactory xpathFactory = XPathFactory.newInstance();
+        XPath xpath = xpathFactory.newXPath();
+        HashMap<String, String> prefMap = new HashMap<String, String>() {{
+            put("se", "http://www.opengis.net/se");
+            put("ogc", "http://www.opengis.net/ogc");
+            put("sld", "http://www.opengis.net/sld");
+        }};
+        SimpleNamespaceContext namespaces = new SimpleNamespaceContext(prefMap);
+        xpath.setNamespaceContext(namespaces);
 
+        XPathExpression expr = xpath.compile("//se:FeatureTypeStyle/se:Rule");
+
+        Object result = expr.evaluate(document, XPathConstants.NODESET);
+        NodeList nodes = (NodeList) result;
+        
         
 /*        
 //        XPathExpression exprName = xpath.compile("//sld:NamedLayer/se:Name");
@@ -192,5 +200,40 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
             }            
         }
         return null;
+    }
+    
+    private Node getNode(String tagName, NodeList nodes) {
+        for ( int x = 0; x < nodes.getLength(); x++ ) {
+            Node node = nodes.item(x);
+            if (node.getNodeName().equalsIgnoreCase(tagName)) {
+                return node;
+            }
+        }
+        return null;
+    }
+    
+    private String getNodeValue(Node node) {
+        NodeList childNodes = node.getChildNodes();
+        for (int x = 0; x < childNodes.getLength(); x++ ) {
+            Node data = childNodes.item(x);
+            if ( data.getNodeType() == Node.TEXT_NODE )
+                return data.getNodeValue();
+        }
+        return "";
+    }
+     
+    private String getNodeValue(String tagName, NodeList nodes) {
+        for ( int x = 0; x < nodes.getLength(); x++ ) {
+            Node node = nodes.item(x);
+            if (node.getNodeName().equalsIgnoreCase(tagName)) {
+                NodeList childNodes = node.getChildNodes();
+                for (int y = 0; y < childNodes.getLength(); y++ ) {
+                    Node data = childNodes.item(y);
+                    if ( data.getNodeType() == Node.TEXT_NODE )
+                        return data.getNodeValue();
+                }
+            }
+        }
+        return "";
     }
 }

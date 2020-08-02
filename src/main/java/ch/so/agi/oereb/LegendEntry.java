@@ -7,6 +7,7 @@ public class LegendEntry {
     private String typeCode;
     private String typeCodeList;
     private String legendText;
+    // TODO: Braucht es das?
     private String geometryType;
 
     public BufferedImage getSymbol() {
