@@ -99,7 +99,29 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
         Object result = expr.evaluate(document, XPathConstants.NODESET);
         NodeList nodes = (NodeList) result;
         
-        
+        for (int i = 0; i < nodes.getLength(); i++) {
+            log.info(nodes.item(i).toString());
+            SimpleRule simpleRule = evaluateRule(nodes.item(i));
+            if (simpleRule != null) {
+//                String typeCodeValue = simpleRule.getTypeCodeValue();
+//                String ruleName = URLEncoder.encode(simpleRule.getRuleName(), "UTF-8");
+//                // log.info(ruleName);
+//
+//                String requestUrl = legendGraphicUrl + "&RULE=" + ruleName;
+//                log.debug(requestUrl);
+//
+//                BufferedImage symbol = Utilities.getRemoteImage(requestUrl);
+//
+//                LegendEntry legendEntry = new LegendEntry();
+//                legendEntry.setTypeCode(typeCodeValue);
+//                legendEntry.setLegendText(simpleRule.getRuleName());
+//                legendEntry.setSymbol(symbol);
+//                legendEntry.setGeometryType(geometryType);
+//
+//                legendEntries.add(legendEntry);
+            }
+        }
+
 /*        
 //        XPathExpression exprName = xpath.compile("//sld:NamedLayer/se:Name");
 //        Object resultName = exprName.evaluate(document, XPathConstants.NODESET);
@@ -153,7 +175,7 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
     }
     
     /*
-     * A Rule must have a Name and a PropertyIsEqualTo filter.
+     * Ein se:Rule-Element muss ein se:Name-Element und ein ogc:Filter-Element vom Typ ogc:PropertyIsEqualTo haben.
      */
     private SimpleRule evaluateRule(Node node) throws Exception {
         String ruleName = null;
