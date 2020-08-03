@@ -1,11 +1,10 @@
 package ch.so.agi.oereb;
 
-public class SimpleRule {
+public class Rule {
     private String ruleName;
     private String typeCodeValue;
-    private String geometryType;
     
-    public SimpleRule(String ruleName, String typeCodeValue) {
+    public Rule(String ruleName, String typeCodeValue) {
         this.ruleName = ruleName;
         this.typeCodeValue = typeCodeValue;
     }
@@ -13,12 +12,15 @@ public class SimpleRule {
     public String getRuleName() {
         return ruleName;
     }
+    
     public void setRuleName(String ruleName) {
         this.ruleName = ruleName;
     }
+    
     public String getTypeCodeValue() {
         return typeCodeValue;
     }
+    
     public void setTypeCodeValue(String typeCodeValue) {
         this.typeCodeValue = typeCodeValue;
     }

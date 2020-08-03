@@ -1,6 +1,9 @@
 package ch.so.agi.oereb;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -99,85 +102,34 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
         Object result = expr.evaluate(document, XPathConstants.NODESET);
         NodeList nodes = (NodeList) result;
         
-        for (int i = 0; i < nodes.getLength(); i++) {
-            log.info(nodes.item(i).toString());
-            SimpleRule simpleRule = evaluateRule(nodes.item(i));
-            if (simpleRule != null) {
-//                String typeCodeValue = simpleRule.getTypeCodeValue();
-//                String ruleName = URLEncoder.encode(simpleRule.getRuleName(), "UTF-8");
-//                // log.info(ruleName);
-//
-//                String requestUrl = legendGraphicUrl + "&RULE=" + ruleName;
-//                log.debug(requestUrl);
-//
-//                BufferedImage symbol = Utilities.getRemoteImage(requestUrl);
-//
-//                LegendEntry legendEntry = new LegendEntry();
-//                legendEntry.setTypeCode(typeCodeValue);
-//                legendEntry.setLegendText(simpleRule.getRuleName());
-//                legendEntry.setSymbol(symbol);
-//                legendEntry.setGeometryType(geometryType);
-//
-//                legendEntries.add(legendEntry);
+        for (int i = 0; i < nodes.getLength(); i++) {            
+            Rule rule = evaluateRule(nodes.item(i));
+            if (rule != null) {
+                String typeCodeValue = rule.getTypeCodeValue();
+                String ruleName = URLEncoder.encode(rule.getRuleName(), "UTF-8");
+                // log.info(ruleName);
+
+                String requestUrl = legendGraphicUrl + "&RULE=" + ruleName;
+                log.debug(requestUrl);
+
+                BufferedImage symbol = getRemoteImage(requestUrl);
+
+                LegendEntry legendEntry = new LegendEntry();
+                legendEntry.setTypeCode(typeCodeValue);
+                legendEntry.setLegendText(rule.getRuleName()); // Darf in OEREB v2 nicht mehr verwendet werden beim Update der DB-Records.
+                legendEntry.setSymbol(symbol);
+                legendEntry.setGeometryType(geometryType);
+
+                legendEntries.add(legendEntry);
             }
         }
-
-/*        
-//        XPathExpression exprName = xpath.compile("//sld:NamedLayer/se:Name");
-//        Object resultName = exprName.evaluate(document, XPathConstants.NODESET);
-//        NodeList nodesName = (NodeList) resultName;
-//        
-////        log.info(String.valueOf(nodesName.getLength()));
-//
-//        String layerName = nodesName.item(0).getTextContent();
-//        if (layerName.contains(".Flaeche")) {
-//            geometryType = "Flaeche";
-//        } else if (layerName.contains(".Linie")) {
-//            geometryType = "Linie";
-//        } else if (layerName.contains(".Punkt")) {
-//            geometryType = "Punkt";
-//        } else {
-//            geometryType = null;
-//        }
-////        log.info(geometryType);
- */       
-        
-        
-        
-        
-//        XPathExpression expr = xpath.compile("//se:FeatureTypeStyle/se:Rule");
-//
-//        Object result = expr.evaluate(document, XPathConstants.NODESET);
-//        NodeList nodes = (NodeList) result;
-//       
-//        for (int i = 0; i < nodes.getLength(); i++) {
-//            SimpleRule simpleRule = evaluateRule(nodes.item(i));
-//            if (simpleRule != null) {
-//                String typeCodeValue = simpleRule.getTypeCodeValue();            
-//                String ruleName = URLEncoder.encode(simpleRule.getRuleName(), "UTF-8");
-//                //log.info(ruleName);
-//                
-//                String requestUrl = legendGraphicUrl + "&RULE=" + ruleName;
-//                log.debug(requestUrl);
-//                
-//                BufferedImage symbol = Utilities.getRemoteImage(requestUrl);
-//
-//                LegendEntry legendEntry = new LegendEntry();
-//                legendEntry.setTypeCode(typeCodeValue);
-//                legendEntry.setLegendText(simpleRule.getRuleName());
-//                legendEntry.setSymbol(symbol);
-//                legendEntry.setGeometryType(geometryType);
-//                
-//                legendEntries.add(legendEntry);
-//            }
-//        }
         return legendEntries;
     }
     
     /*
-     * Ein se:Rule-Element muss ein se:Name-Element und ein ogc:Filter-Element vom Typ ogc:PropertyIsEqualTo haben.
+     * Ein <se:Rule> Element muss ein <se:Name> Element und ein <ogc:Filter> Element vom Typ <ogc:PropertyIsEqualTo> haben.
      */
-    private SimpleRule evaluateRule(Node node) throws Exception {
+    private Rule evaluateRule(Node node) throws Exception {
         String ruleName = null;
         String typeCodeValue = null;
 
@@ -194,16 +146,20 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
         }
         
         if (ruleName == null || typeCodeValue == null) {
-            //throw new Exception("rule name or typecode value not found");
             return null;
         }
         log.debug(ruleName + " " + typeCodeValue);
-        return new SimpleRule(ruleName, typeCodeValue);
+        return new Rule(ruleName, typeCodeValue);
     }
     
     /*
-     * This is where we are very very specific: the typecode of the oereb-rahmenmodell is the literal of
-     * the PropertyIsEqualTo filter.
+     * Hier folgt der sehr spezifische Teil: Der TypeCode/Artcode des OEREB-Rahmenmodells ist der Wert
+     * des <Literal> Elements im <PropertyIsEqualTo> Filter. Die <ogc:Function> kann im Prinzip 
+     * beliebig kompliziert sein. 
+     * Ausnahme ist der "Substring"-Modus: In diesem Fall entspricht der Wert des  <Literal> Elements 
+     * nur einem Substrings des TypeCodes/Artcodes. Man muss aber zum jetzigen Zeitpunkt noch nicht 
+     * wissen, dass später der Substring-Modus gilt. Hier und jetzt werden bloss "dumm" alle Symbole eines 
+     * WMS-Layers hergestellt.
      */
     private String evaluateFilter(Node node) {
         NodeList nodes = node.getChildNodes();
@@ -224,38 +180,34 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
         return null;
     }
     
-    private Node getNode(String tagName, NodeList nodes) {
-        for ( int x = 0; x < nodes.getLength(); x++ ) {
-            Node node = nodes.item(x);
-            if (node.getNodeName().equalsIgnoreCase(tagName)) {
-                return node;
-            }
+    /*
+     * Saves a remote image (the symbol) as BufferedImage.
+     */
+    private BufferedImage getRemoteImage(String url) throws Exception {
+        try {
+            CloseableHttpClient httpclient = HttpClients.custom()
+                    .setRedirectStrategy(new LaxRedirectStrategy()) // adds HTTP REDIRECT support to GET and POST methods 
+                    .build();
+            HttpGet get = new HttpGet(new URL(url).toURI()); 
+            CloseableHttpResponse response = httpclient.execute(get);
+            
+            InputStream inputStream = response.getEntity().getContent();
+            BufferedImage image = ImageIO.read(inputStream);
+
+            // force 3 band image
+            BufferedImage fixedImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+            Graphics2D g = (Graphics2D) fixedImage.getGraphics();
+            g.setBackground(Color.WHITE);
+            g.clearRect(0, 0, image.getWidth(), image.getHeight());   
+            g.drawImage(image, 0, 0, null);               
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(fixedImage, "png", baos); 
+            baos.flush();
+            baos.close();            
+            return fixedImage;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            throw new Exception(e);
         }
-        return null;
-    }
-    
-    private String getNodeValue(Node node) {
-        NodeList childNodes = node.getChildNodes();
-        for (int x = 0; x < childNodes.getLength(); x++ ) {
-            Node data = childNodes.item(x);
-            if ( data.getNodeType() == Node.TEXT_NODE )
-                return data.getNodeValue();
-        }
-        return "";
-    }
-     
-    private String getNodeValue(String tagName, NodeList nodes) {
-        for ( int x = 0; x < nodes.getLength(); x++ ) {
-            Node node = nodes.item(x);
-            if (node.getNodeName().equalsIgnoreCase(tagName)) {
-                NodeList childNodes = node.getChildNodes();
-                for (int y = 0; y < childNodes.getLength(); y++ ) {
-                    Node data = childNodes.item(y);
-                    if ( data.getNodeType() == Node.TEXT_NODE )
-                        return data.getNodeValue();
-                }
-            }
-        }
-        return "";
     }
 }

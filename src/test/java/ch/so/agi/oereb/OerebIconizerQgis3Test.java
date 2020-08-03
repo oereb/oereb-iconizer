@@ -45,5 +45,6 @@ public class OerebIconizerQgis3Test {
         OerebIconizer iconizer = new OerebIconizer();
         List<LegendEntry> legendEntries = iconizer.getSymbolsQgis3(getStylesRequest, getLegendGraphicRequest);
 
+        
     }
 }
