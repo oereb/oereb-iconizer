@@ -1,5 +1,9 @@
 package ch.so.agi.oereb;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -45,6 +49,6 @@ public class OerebIconizerQgis3Test {
         OerebIconizer iconizer = new OerebIconizer();
         List<LegendEntry> legendEntries = iconizer.getSymbolsQgis3(getStylesRequest, getLegendGraphicRequest);
 
-        
+        assertEquals(39, legendEntries.size());
     }
 }
