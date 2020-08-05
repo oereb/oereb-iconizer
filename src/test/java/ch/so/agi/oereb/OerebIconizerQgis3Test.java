@@ -50,5 +50,8 @@ public class OerebIconizerQgis3Test {
         List<LegendEntry> legendEntries = iconizer.getSymbolsQgis3(getStylesRequest, getLegendGraphicRequest);
 
         assertEquals(39, legendEntries.size());
+        
+        // Ohne Referenz-Image Grösse etc. prüfen.
+        // Sind alle 39 auch images etc.?
     }
 }
