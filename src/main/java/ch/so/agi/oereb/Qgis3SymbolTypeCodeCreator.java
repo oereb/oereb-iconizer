@@ -107,7 +107,7 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
                 String ruleName = URLEncoder.encode(rule.getRuleName(), "UTF-8");
 
                 String requestUrl = legendGraphicUrl + "&RULE=" + ruleName;
-                log.debug(requestUrl);
+                log.info(requestUrl);
 
                 BufferedImage symbol = getRemoteImage(requestUrl);
 

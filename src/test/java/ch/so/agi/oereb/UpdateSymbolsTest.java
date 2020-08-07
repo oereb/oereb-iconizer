@@ -155,6 +155,69 @@ public class UpdateSymbolsTest {
         }
     }    
 
+    @Test
+    public void updateSymbolSubstringMode_Ok() throws Exception {
+        String schemaName = "insertsymbols".toLowerCase();
+        String tableName = "test".toLowerCase();
+        String typeCodeAttrName = "artcode";
+        String symbolAttrName = "symbol";
+
+        Connection con = null;
+        
+        String typeCode = "390";
+        String typeCodeCommunal = "3901";
+        File symbolFile = new File("src/test/data/weitere_schutzzone_ausserhalb_bauzone.png");
+
+        try {
+            // Prepare database: create table.
+            con = connect(postgres);
+            createOrReplaceSchema(con, schemaName);
+            
+            Statement s1 = con.createStatement();
+            s1.execute("CREATE TABLE " + schemaName + "." + tableName + "(t_id SERIAL, artcode TEXT, artcodeliste TEXT, symbol BYTEA);");
+            s1.execute("INSERT INTO " + schemaName + "." + tableName + "(artcode, artcodeliste) VALUES('" + typeCodeCommunal +"', 'GrundnutzungListe.2601');");
+            s1.close();
+            con.commit();
+            closeConnection(con);
+                        
+            // Insert typecode and symbol with the iconizer.
+            List<LegendEntry> legendEntries = new ArrayList<LegendEntry>();
+            LegendEntry entry = new LegendEntry();
+            entry.setTypeCode(typeCode);
+            entry.setSymbol(ImageIO.read(symbolFile));
+            legendEntries.add(entry);
+                        
+            OerebIconizer iconizer = new OerebIconizer();
+            int count = iconizer.updateSymbols(legendEntries, postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword(), schemaName, tableName, typeCodeAttrName, "artcodeliste", "GrundnutzungListe", symbolAttrName, true);
+
+            // Check if everything is ok.
+            con = connect(postgres);
+            Statement s2 = con.createStatement();
+            ResultSet rs = s2.executeQuery("SELECT artcode, symbol FROM " + schemaName + "." + tableName);
+            
+            if(!rs.next()) {
+                fail();
+            }
+            
+            assertEquals(1, count);
+            assertEquals(typeCodeCommunal, rs.getString(1));
+                      
+            ByteArrayInputStream bis = new ByteArrayInputStream(rs.getBytes(2));
+            BufferedImage bim = ImageIO.read(bis);            
+            assertEquals(ImageIO.read(symbolFile).getHeight(), bim.getHeight());
+            assertEquals(ImageIO.read(symbolFile).getWidth(), bim.getWidth());
+            assertEquals(ImageIO.read(symbolFile).isAlphaPremultiplied(), bim.isAlphaPremultiplied());
+                     
+            if(rs.next()) {
+                fail();
+            }
+            
+            rs.close();
+            s2.close();
+        } finally {
+            closeConnection(con);
+        }           
+    }
 
     private Connection connect(PostgreSQLContainer postgres) {
         Connection con = null;

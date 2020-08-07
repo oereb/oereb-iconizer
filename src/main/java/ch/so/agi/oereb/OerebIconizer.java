@@ -27,8 +27,20 @@ public class OerebIconizer {
      * @return                 The symbol and the type code.                
      * @throws Exception
      */
-    public List<LegendEntry> getSymbolsQgis3(String stylesUrl, String legendGraphicUrl) throws Exception {
-        SymbolTypeCodeCreator styleConfigCreator = new Qgis3SymbolTypeCodeCreator(stylesUrl, legendGraphicUrl);
+    public List<LegendEntry> getSymbols(String creator, String stylesUrl, String legendGraphicUrl) throws Exception {
+        SymbolTypeCodeCreator styleConfigCreator = null;
+        
+        try {
+            SymbolTypeCodeCreators.valueOf(creator);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            throw new Exception(e.getMessage());
+        }        
+        
+        if (SymbolTypeCodeCreators.valueOf(creator) == SymbolTypeCodeCreators.QGIS3) {
+            styleConfigCreator = new Qgis3SymbolTypeCodeCreator(stylesUrl, legendGraphicUrl);
+        } 
+        
         List<LegendEntry> legendEntries = styleConfigCreator.create();
         return legendEntries;
     }

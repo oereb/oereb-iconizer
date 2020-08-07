@@ -1,3 +1,4 @@
+docker run -p 8083:80 sogis/oereb2-wms:3.10
 # oereb2-iconizer
 
 ## Dummy Symbol WMS
@@ -15,3 +16,13 @@ http://localhost:8083/wms/oereb-symbols?&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetSt
 ```
 http://localhost:8083/wms/oereb-symbols?&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=ch.SO.NutzungsplanungGrundnutzung&FORMAT=image/png&STYLE=default&SLD_VERSION=1.1.0
 ```
+
+## Build
+```
+native-image --no-fallback --no-server --verbose --report-unsupported-elements-at-runtime --native-image-info -cp build/libs/oereb2-iconizer-2.0.LOCALBUILD-all.jar -H:+ReportExceptionStackTraces
+```
+
+## TODO
+- Factory pattern (creators)
+- https://github.com/oracle/graal/issues/1163 (native image)
+- Braucht es proxy-config.json? (native image)

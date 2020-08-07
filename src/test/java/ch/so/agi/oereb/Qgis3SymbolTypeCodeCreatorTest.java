@@ -47,7 +47,7 @@ public class Qgis3SymbolTypeCodeCreatorTest {
         log.info(getLegendGraphicRequest);
 
         OerebIconizer iconizer = new OerebIconizer();
-        List<LegendEntry> legendEntries = iconizer.getSymbolsQgis3(getStylesRequest, getLegendGraphicRequest);
+        List<LegendEntry> legendEntries = iconizer.getSymbols("QGIS3", getStylesRequest, getLegendGraphicRequest);
 
         assertEquals(39, legendEntries.size());
         
