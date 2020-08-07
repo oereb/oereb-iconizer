@@ -17,7 +17,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
-public class OerebIconizerQgis3Test {
+public class Qgis3SymbolTypeCodeCreatorTest {
     Logger log = LoggerFactory.getLogger(this.getClass());
 
     private static String WAIT_PATTERN = ".*database system is ready to accept connections.*\\s";
@@ -51,7 +51,10 @@ public class OerebIconizerQgis3Test {
 
         assertEquals(39, legendEntries.size());
         
-        // Ohne Referenz-Image Grösse etc. prüfen.
-        // Sind alle 39 auch images etc.?
-    }
+        for (LegendEntry legendEntry : legendEntries) {
+            assertEquals(35, legendEntry.getSymbol().getHeight());
+            assertEquals(70, legendEntry.getSymbol().getWidth());
+            assertEquals(false, legendEntry.getSymbol().isAlphaPremultiplied());
+        }
+    } 
 }

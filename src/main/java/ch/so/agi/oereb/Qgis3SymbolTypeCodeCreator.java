@@ -75,11 +75,9 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
             throw new Exception("configuration file is null");
         }
                
-        // Zuerst werden mit xpath alle se:Rule-Element gesucht. Anschliessend
+        // Zuerst werden mit xpath alle se:Rule-Elemente gesucht. Anschliessend
         // wird jedes se:Rule-Element prozessiert und der Rule-Name (se:Name)
-        // und der TypeCode-Wert gelesen.
-        // TODO: Braucht es se:Name noch? oereb-v2: Legendentext entspricht
-        // nun eher der Aussage und darf nicht in die DB geschrieben werden.
+        // und der TypeCode-Wert werden gelesen.
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         domFactory.setNamespaceAware(true);
         DocumentBuilder builder = domFactory.newDocumentBuilder();
@@ -107,7 +105,6 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
             if (rule != null) {
                 String typeCodeValue = rule.getTypeCodeValue();
                 String ruleName = URLEncoder.encode(rule.getRuleName(), "UTF-8");
-                // log.info(ruleName);
 
                 String requestUrl = legendGraphicUrl + "&RULE=" + ruleName;
                 log.debug(requestUrl);
@@ -156,8 +153,8 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
      * Hier folgt der sehr spezifische Teil: Der TypeCode/Artcode des OEREB-Rahmenmodells ist der Wert
      * des <Literal> Elements im <PropertyIsEqualTo> Filter. Die <ogc:Function> kann im Prinzip 
      * beliebig kompliziert sein. 
-     * Ausnahme ist der "Substring"-Modus: In diesem Fall entspricht der Wert des  <Literal> Elements 
-     * nur einem Substrings des TypeCodes/Artcodes. Man muss aber zum jetzigen Zeitpunkt noch nicht 
+     * Ausnahme ist der "Substring"-Modus: In diesem Fall entspricht der Wert des <Literal> Elements 
+     * nur einem Substring des TypeCodes/Artcodes. Man muss aber zum jetzigen Zeitpunkt noch nicht 
      * wissen, dass später der Substring-Modus gilt. Hier und jetzt werden bloss "dumm" alle Symbole eines 
      * WMS-Layers hergestellt.
      */
