@@ -21,27 +21,17 @@ public class OerebIconizer {
     /**
      * Gets all the symbols and the according type code from a QGIS v3 WMS server.
      * 
+     * @param creatorType      SymbolTypeCodeCreator type
      * @param stylesUrl        GetStyles request url (= SLD file).
      * @param legendGraphicUrl GetLegendGraphic request url with the vendor specific parameters for single symbol support. 
      *                         The RULE parameter is added dynamically. The LAYER parameter must be included.
      * @return                 The symbol and the type code.                
      * @throws Exception
      */
-    public List<LegendEntry> getSymbols(String creator, String stylesUrl, String legendGraphicUrl) throws Exception {
-        SymbolTypeCodeCreator styleConfigCreator = null;
+    public List<LegendEntry> getSymbols(String creatorType, String stylesUrl, String legendGraphicUrl) throws Exception {
+        SymbolTypeCodeCreator symbolTypeCodeCreator = SymbolTypeCodeCreatorFactory.getSymbolTypeCodeCreatory(creatorType, stylesUrl, legendGraphicUrl);
         
-        try {
-            SymbolTypeCodeCreators.valueOf(creator);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            throw new Exception(e.getMessage());
-        }        
-        
-        if (SymbolTypeCodeCreators.valueOf(creator) == SymbolTypeCodeCreators.QGIS3) {
-            styleConfigCreator = new Qgis3SymbolTypeCodeCreator(stylesUrl, legendGraphicUrl);
-        } 
-        
-        List<LegendEntry> legendEntries = styleConfigCreator.create();
+        List<LegendEntry> legendEntries = symbolTypeCodeCreator.createLegendEntries();
         return legendEntries;
     }
 

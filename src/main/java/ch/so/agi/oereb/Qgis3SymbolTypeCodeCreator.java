@@ -52,7 +52,7 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
     }
     
     @Override
-    public List<LegendEntry> create() throws Exception {
+    public List<LegendEntry> createLegendEntries() throws Exception {
         List<LegendEntry> legendEntries = new ArrayList<LegendEntry>();
         
         // Save GetStyles response to a file.
@@ -113,7 +113,7 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
 
                 LegendEntry legendEntry = new LegendEntry();
                 legendEntry.setTypeCode(typeCodeValue);
-                legendEntry.setLegendText(rule.getRuleName()); // Darf in OEREB v2 nicht mehr verwendet werden beim Update der DB-Records.
+                legendEntry.setLegendText(rule.getRuleName()); // TODO: not needed / supported in database update
                 legendEntry.setSymbol(symbol);
                 legendEntry.setGeometryType(geometryType);
 
@@ -153,10 +153,10 @@ public class Qgis3SymbolTypeCodeCreator implements SymbolTypeCodeCreator {
      * Hier folgt der sehr spezifische Teil: Der TypeCode/Artcode des OEREB-Rahmenmodells ist der Wert
      * des <Literal> Elements im <PropertyIsEqualTo> Filter. Die <ogc:Function> kann im Prinzip 
      * beliebig kompliziert sein. 
-     * Ausnahme ist der "Substring"-Modus: In diesem Fall entspricht der Wert des <Literal> Elements 
-     * nur einem Substring des TypeCodes/Artcodes. Man muss aber zum jetzigen Zeitpunkt noch nicht 
-     * wissen, dass später der Substring-Modus gilt. Hier und jetzt werden bloss "dumm" alle Symbole eines 
-     * WMS-Layers hergestellt.
+     * Achtung: Im "Substring"-Modus entspricht der Wert des <Literal> Elements 
+     * nur einem Substring des TypeCodes/Artcodes. Man muss aber zum jetzigen Zeitpunkt (d.h. beim Herstellen
+     * der Symbole) noch nicht wissen, dass später der Substring-Modus gilt. Hier und jetzt werden bloss 
+     * "dumm" alle Symbole eines WMS-Layers hergestellt.
      */
     private String evaluateFilter(Node node) {
         NodeList nodes = node.getChildNodes();

@@ -1,6 +1,10 @@
 # oereb2-iconizer
 
 ## Anleitung
+- Für was?
+- 2 selbständige Prozesse (resp. Speicher in Verzeichnis)
+- Einfach gehalten... Was sind die Rahmenbedingungen?
+- substring mode
 
 
 ## Entwicklung
@@ -28,7 +32,7 @@ native-image --no-fallback --no-server --verbose --report-unsupported-elements-a
 
 ## TODO
 - Anleitung
-- JDK-only für File herunterladen?
-- Factory pattern (creators)
-- https://github.com/oracle/graal/issues/1163 (native image)
+- Können JDK-only Klassen für den Dateidownload verwendet werden? Mit Java 11 wäre das wegen des bessern Redirect-Supports wohl möglich. Unser GRETL-Image verlangt aber noch Java 8.
+- Rename LegendEntry? Sind im Prinzip keine Legendeneinträge, sondern Symbole und Artcodes. -> "Symbol"?
+- https://github.com/oracle/graal/issues/1163 (native image). Aber lieber keine weitere externe Abhängigkeit, falls es mit dieser Variante gehen würde. Also sein lassen.
 - Braucht es proxy-config.json? (native image)
