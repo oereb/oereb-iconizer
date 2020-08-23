@@ -21,9 +21,9 @@ jobs:
         run: ./gradlew build --fail-fast -i
         env:
           BUILD_NUMBER: ${{ env.GITHUB_RUN_NUMBER }}
-    - name: Publish Jar
-      if: success() && github.ref == 'refs/heads/master'
-      env:
-        bintrayUser: ${{secrets.bintrayUser}}
-        bintrayKey: ${{secrets.bintrayKey}}
-      run: ./gradlew bintrayUpload
+      - name: Publish Jar
+        if: success() && github.ref == 'refs/heads/master'
+        env:
+          bintrayUser: ${{secrets.bintrayUser}}
+          bintrayKey: ${{secrets.bintrayKey}}
+        run: ./gradlew bintrayUpload
