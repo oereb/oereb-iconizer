@@ -48,7 +48,10 @@ application {
 }
 
 test {
+    testLogging.showStandardStreams = true
+    testLogging.exceptionFormat = 'full'
     useJUnitPlatform()
+    failFast = true    
 }
 
 run {
