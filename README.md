@@ -1,11 +1,7 @@
-# oereb2-iconizer
+# oereb-iconizer
 
 ## Anleitung
-- Für was?
-- 2 selbständige Prozesse (resp. Speicher in Verzeichnis)
-- Einfach gehalten... Was sind die Rahmenbedingungen?
-- substring mode
-
+todo
 
 ## Entwicklung
 
@@ -30,9 +26,15 @@ http://localhost:8083/wms/oereb-symbols?&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLe
 native-image --no-fallback --no-server --verbose --report-unsupported-elements-at-runtime --native-image-info -cp build/libs/oereb2-iconizer-2.0.LOCALBUILD-all.jar -H:+ReportExceptionStackTraces
 ```
 
+Funktioniert noch nicht.
+
 ## TODO
 - Anleitung
-- Können JDK-only Klassen für den Dateidownload verwendet werden? Mit Java 11 wäre das wegen des bessern Redirect-Supports wohl möglich. Unser GRETL-Image verlangt aber noch Java 8.
+    - Anwendungszweck?
+    - Zwei selbständige Prozesse: Herunterladen und Import in DB (plus ggf Speichern in Verzeichnis)
+    - Einfacher Ansatz gewählt. Was sind die Rahmenbedingungen?
+    - Erklärung Substring-Modus.
+- Können JDK-only Klassen für den Dateidownload verwendet werden? Mit Java 11 wäre das wegen des besseren Redirect-Supports wohl möglich. Unser GRETL-Image verlangt aber noch Java 8.
 - Rename LegendEntry? Sind im Prinzip keine Legendeneinträge, sondern Symbole und Artcodes. -> "Symbol"?
 - https://github.com/oracle/graal/issues/1163 (native image). Aber lieber keine weitere externe Abhängigkeit, falls es mit dieser Variante gehen würde. Also sein lassen.
 - Braucht es proxy-config.json? (native image)
