@@ -9,6 +9,9 @@ todo
 ```
 docker run -p 8083:80 sogis/oereb2-wms:3.10
 ```
+
+Es handelt sich dabei nicht um das "Original-Oereb-WMS-Image", sondern um ein Image, welches für die Test der zweiten Version des Rahmenmodells enstanden ist (https://github.com/oereb/oereb2-wms). Im Rahmen der Realisierung/Einführung der Version 2 des Rahmenmodells muss es offizialisiert werden oder das zu diesem Zeitpunkt richtige Image verwendet werden.
+
 ```
 http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetCapabilities
 ```
