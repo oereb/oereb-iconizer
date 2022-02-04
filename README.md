@@ -41,3 +41,4 @@ Funktioniert noch nicht.
 - Rename LegendEntry? Sind im Prinzip keine Legendeneinträge, sondern Symbole und Artcodes. -> "Symbol"?
 - https://github.com/oracle/graal/issues/1163 (native image). Aber lieber keine weitere externe Abhängigkeit, falls es mit dieser Variante gehen würde. Also sein lassen.
 - Braucht es proxy-config.json? (native image)
+- ...
