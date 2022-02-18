@@ -1,0 +1,94 @@
+plugins {
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
+    id 'org.jreleaser' version '0.9.1'    
+}
+
+apply from: "$rootDir/gradle/versioning.gradle"
+
+
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+group = 'ch.so.agi.oereb'
+
+repositories {
+    mavenCentral()
+    maven { url "http://jars.interlis.ch"; allowInsecureProtocol true }
+}
+
+dependencies {
+    implementation 'info.picocli:picocli:4.6.1'
+    annotationProcessor 'info.picocli:picocli-codegen:4.6.1'
+
+    implementation 'org.slf4j:slf4j-api:1.7.32'
+    implementation 'org.slf4j:slf4j-simple:1.7.32'
+        
+    implementation 'ch.interlis:iox-ili:1.21.7' 
+    implementation 'ch.interlis:ili2c-core:5.2.3'
+    implementation 'ch.interlis:ili2c-tool:5.2.3'
+    
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+    testImplementation 'org.testcontainers:testcontainers:1.16.0'
+    testImplementation 'org.testcontainers:junit-jupiter:1.16.0'
+    testImplementation 'ch.interlis:ilivalidator:1.11.11'
+}
+
+application {
+    mainClass = 'ch.so.agi.oereb.iconizer.App'
+}
+
+distributions {
+    main {
+        distributionBaseName = 'oereb-iconizer'
+    }
+}
+
+project.archivesBaseName = 'oereb-iconizer'
+
+startScripts {
+   applicationName = 'oereb-iconizer'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+run {
+    args = ["--help"]
+    //args = ["--downloadDir", "/Users/stefan/tmp/", "--sldUrl", "http://localhost:8083/wms/oereb-symbols?&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetStyles&LAYERS=ch.SO.NutzungsplanungGrundnutzung&STYLE=default&SLD_VERSION=1.1.0", "--legendGraphicUrl", "http://localhost:8083/wms/oereb-symbols?&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=ch.SO.NutzungsplanungGrundnutzung&FORMAT=image/png&STYLE=default&SLD_VERSION=1.1.0&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=6&DPI=300"]
+    // --downloadDir /Users/stefan/tmp/ --sldUrl "http://localhost:8083/wms/oereb-symbols?&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetStyles&LAYERS=ch.SO.NutzungsplanungGrundnutzung&STYLE=default&SLD_VERSION=1.1.0" --legendGraphicUrl "http://localhost:8083/wms/oereb-symbols?&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&LAYER=ch.SO.NutzungsplanungGrundnutzung&FORMAT=image/png&STYLE=default&SLD_VERSION=1.1.0&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=6&DPI=300"
+}
+
+jreleaser {
+    gitRootSearch = true
+    
+    project {
+        name = 'oereb-iconizer'
+        description = 'Create icons for OEREB-Kataster from a WMS and stores them in an INTERLIS file.'
+        website = 'https://agi.so.ch'
+        authors = ['edigonzales']
+        license = 'MIT'
+        docsUrl = 'https://github.com/sogis-oereb/oereb-iconizer'
+    }
+    release {
+        github {
+            owner = 'sogis-oereb'
+            overwrite = true
+            apiEndpoint = 'https://api.github.com'
+        }
+    }
+    distributions {
+        app {
+            distributionType = 'SINGLE_JAR'
+            artifact {
+                path = "build/libs/oereb-iconizer-${version}-all.jar"
+            }
+            java {
+                groupId = 'ch.so.agi'
+                artifactId = 'oereb-iconizer'
+                version = '11'
+            }
+        }
+    }
+}
