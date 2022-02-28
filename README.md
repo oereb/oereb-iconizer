@@ -100,6 +100,15 @@ java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oere
 java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.Gewaesserraum.Linie&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.Gewaesserraum.Linie&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=6&DPI=300" --fileName=ch.so.afu.oereb_gewaesserraum_linie.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege.gewaesserraum.linie --theme=ch.Gewaesserraum --typeCodeList=urn:fdc:ilismeta.interlis.ch:2022:Typ_Kanton_Gewaesserraum_Linie
 ```
 
+Nutzungsplanung:
+```
+java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.SO.NutzungsplanungGrundnutzung&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.SO.NutzungsplanungGrundnutzung&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=6&DPI=300" --fileName=ch.so.arp.oereb_nutzungsplanung_grundnutzung.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege.nutzungsplanung_grundnutzung --theme=ch.SO.NutzungsplanungGrundnutzung --typeCodeList=urn:fdc:ilismeta.interlis.ch:2017:NP_Typ_Kanton_Grundnutzung
+
+```
+
+
+
+
 Die Datei muss zum dazugehörigen OEREB-GRETL-Job kopiert werden (und ins Repo eingecheckt werden).
 
 ## Testrequests
