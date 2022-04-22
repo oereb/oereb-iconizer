@@ -55,11 +55,13 @@ _Oereb-iconizer_ kann als Fatjar hier https://github.com/sogis-oereb/oereb-iconi
 
 Erstellen der Symbole und der INTERLIS-Transferdatei:
 
+Bemerkung: Für einige Themen (Grundwasserschutz, Planungszonen, ... Legenden mit Randlinie) wird die SYMBOLWIDTH auf 5.8 gesetzt. Sonst schneidet QGIS den rechten Rand ab. Eine andere Variante wäre die WIDTH=73 wählen.
+
 Planerischer Gewässerschutz:
 ```
-java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.Grundwasserschutzzonen&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.Grundwasserschutzzonen&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=6&DPI=300" --fileName=ch.so.afu.oereb_grundwasserschutzzonen.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege.zone --theme=ch.Grundwasserschutzzonen --typeCodeList=urn:fdc:ilismeta.interlis.ch:2017:Typ_Kanton_Grundwasserschutzzonen
+java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.Grundwasserschutzzonen&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.Grundwasserschutzzonen&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=5.8&DPI=300" --fileName=ch.so.afu.oereb_grundwasserschutzzonen.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege.zone --theme=ch.Grundwasserschutzzonen --typeCodeList=urn:fdc:ilismeta.interlis.ch:2017:Typ_Kanton_Grundwasserschutzzonen
 
-java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.Grundwasserschutzareale&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.Grundwasserschutzareale&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=6&DPI=300" --fileName=ch.so.afu.oereb_grundwasserschutzareale.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege.areal --theme=ch.Grundwasserschutzareale --typeCodeList=urn:fdc:ilismeta.interlis.ch:2017:Typ_Kanton_Grundwasserschutzareale
+java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.Grundwasserschutzareale&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.Grundwasserschutzareale&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=5.8&DPI=300" --fileName=ch.so.afu.oereb_grundwasserschutzareale.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege.areal --theme=ch.Grundwasserschutzareale --typeCodeList=urn:fdc:ilismeta.interlis.ch:2017:Typ_Kanton_Grundwasserschutzareale
 ```
 
 Naturreservate (Einzelschutz + Nutzungsplanung):
@@ -90,7 +92,7 @@ java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oere
 
 Planungszonen:
 ```
-java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.Planungszonen&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.Planungszonen&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=6&DPI=300" --fileName=ch.so.arp.oereb_planungszonen.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege --theme=ch.Planungszonen --typeCodeList=urn:fdc:ilismeta.interlis.ch:2022:Typ_Kanton_Planungszonen
+java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.Planungszonen&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.Planungszonen&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=5.8&DPI=300" --fileName=ch.so.arp.oereb_planungszonen.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege --theme=ch.Planungszonen --typeCodeList=urn:fdc:ilismeta.interlis.ch:2022:Typ_Kanton_Planungszonen
 ```
 
 Gewässerraum:
@@ -116,13 +118,17 @@ java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oere
 
 java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.Laermempfindlichkeitsstufen&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.Laermempfindlichkeitsstufen&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=6&DPI=300" --fileName=ch.so.arp.oereb_laermempfindlichkeitsstufen.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege.laermempfindlichkeitsstufen --theme=ch.Laermempfindlichkeitsstufen --typeCodeList=urn:fdc:ilismeta.interlis.ch:2020:Typ_Kanton_Empfindlichkeitsstufe
 
-
 java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.Waldabstandslinien&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.Waldabstandslinien&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=6&DPI=300" --fileName=ch.so.arp.oereb_waldabstandslinien.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege.waldabstandslinien --theme=ch.Waldabstandslinien --typeCodeList=urn:fdc:ilismeta.interlis.ch:2017:NP_Typ_Kanton_Erschliessung_Linienobjekt
-
 ```
 
+Nutzungsplanung (kantonal):
+```
+java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.SO.NutzungsplanungUeberlagernd.Flaeche&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.SO.NutzungsplanungUeberlagernd.Flaeche&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=6&DPI=300" --fileName=ch.so.arp.oereb_nutzungsplanung_ueberlagernd_flaeche.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege.nutzungsplanung_ueberlagernd.flaeche --theme=ch.Nutzungsplanung --subtheme=ch.SO.NutzungsplanungUeberlagernd --typeCodeList=urn:fdc:ilismeta.interlis.ch:2022:Nutzungsplanung_kantonal_Ueberlagernd_Flaeche
 
+java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.SO.NutzungsplanungSondernutzungsplaene&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.SO.NutzungsplanungSondernutzungsplaene&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=6&DPI=300" --fileName=ch.so.arp.oereb_nutzungsplanung_sondernutzungsplaene.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege.nutzungsplanung_sondernutzungsplaene --theme=ch.Nutzungsplanung --subtheme=ch.SO.NutzungsplanungSondernutzungsplaene --typeCodeList=urn:fdc:ilismeta.interlis.ch:2022:Nutzungsplanung_kantonal_Ueberlagernd_Flaeche
 
+java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.SO.Baulinien&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.SO.Baulinien&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=6&DPI=300" --fileName=ch.so.arp.oereb_baulinien.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege.baulinien --theme=ch.Nutzungsplanung --subtheme=ch.SO.Baulinien --typeCodeList=urn:fdc:ilismeta.interlis.ch:2022:Nutzungsplanung_kantonal_Erschliessung_Linienobjekt
+```
 
 Die Datei muss zum dazugehörigen OEREB-GRETL-Job kopiert werden (und ins Repo eingecheckt werden).
 
