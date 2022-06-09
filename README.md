@@ -130,6 +130,13 @@ java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oere
 java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.SO.Baulinien&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.SO.Baulinien&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=6&DPI=300" --fileName=ch.so.arp.oereb_baulinien.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege.baulinien --theme=ch.Nutzungsplanung --subtheme=ch.SO.Baulinien --typeCodeList=urn:fdc:ilismeta.interlis.ch:2022:Nutzungsplanung_kantonal_Erschliessung_Linienobjekt
 ```
 
+Waldreservate:
+```
+java -jar oereb-iconizer-2.0.10-all.jar --sldUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetStyles&LAYERS=ch.Waldreservate&SLD_VERSION=1.1.0" --legendGraphicUrl="http://localhost:8083/wms/oereb-symbols?SERVICE=WMS&REQUEST=GetLegendGraphic&LAYER=ch.Waldreservate&FORMAT=image/png&RULELABEL=false&LAYERTITLE=false&HEIGHT=35&WIDTH=70&SYMBOLHEIGHT=3&SYMBOLWIDTH=5.8&DPI=300" --fileName=ch.so.arp.oereb_waldreservate.symbole.xtf --basketId=ch.so.agi.oereb.legendeneintraege.waldreservate --theme=ch.Waldreservate --typeCodeList=urn:fdc:ilismeta.interlis.ch:2017:Waldreservate_Codelisten_V1_1
+
+```
+
+
 Die Datei muss zum dazugehörigen OEREB-GRETL-Job kopiert werden (und ins Repo eingecheckt werden).
 
 ## Testrequests
