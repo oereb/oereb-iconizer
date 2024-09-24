@@ -69,11 +69,11 @@ jreleaser {
         website = 'https://agi.so.ch'
         authors = ['edigonzales']
         license = 'MIT'
-        docsUrl = 'https://github.com/sogis-oereb/oereb-iconizer'
+        docsUrl = 'https://github.com/sogis/oereb-iconizer'
     }
     release {
         github {
-            owner = 'sogis-oereb'
+            owner = 'sogis'
             overwrite = true
             apiEndpoint = 'https://api.github.com'
         }
