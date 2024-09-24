@@ -42,7 +42,7 @@ jobs:
 
       - name: Release 
         run: |
-          ./gradlew app:jreleaserRelease
+          ./gradlew app:jreleaserRelease -i
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: ${{ (github.ref == 'refs/heads/master') && (github.event_name != 'pull_request') && !env.ACT }}
